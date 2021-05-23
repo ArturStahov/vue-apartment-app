@@ -27,7 +27,11 @@ import * as eventAuthType from "../config";
 import Container from "../components/Container";
 import LoginForm from "../components/auth/LoginForm";
 import RegisterForm from "../components/auth/RegisterForm";
-import { fetchLogin, fetchRegistration } from "../services";
+
+import {
+  errorNotification,
+  infoNotification,
+} from "../utils/errorNotification";
 
 export default {
   name: "HomePage",
@@ -39,6 +43,8 @@ export default {
 
   data() {
     return {
+      errorNotification,
+      infoNotification,
       eventAuthType,
       toggleEvent: false,
       isLoading: false,
@@ -63,33 +69,55 @@ export default {
       }
     },
 
-    async registered(data) {
+    async registered(formData) {
       try {
         this.isLoading = true;
-        const result = await fetchRegistration(data);
-        console.log(result);
+
+        await this.$store.dispatch("auth/registrationOperation", formData);
+
+        this.infoNotification("success!");
+
+        console.log("this.$store.state", this.$store.state);
+        this.$router.push({ name: "contentPage" });
       } catch (error) {
         this.isLoading = false;
         console.log(error.message);
+        this.errorNotification(error.message);
       } finally {
         console.log(`All Tasks is Done`);
         this.isLoading = false;
       }
     },
 
-    async login(data) {
+    async login(formData) {
       try {
         this.isLoading = true;
-        const result = await fetchLogin(data);
-        console.log(result);
+
+        await this.$store.dispatch("auth/loginOperation", formData);
+        console.log("this.$store.state", this.$store.state);
+
+        this.infoNotification("success!");
+
+        this.$router.push({ name: "contentPage" });
       } catch (error) {
         this.isLoading = false;
+        this.errorNotification(error.message);
         console.log(error.message);
       } finally {
         console.log(`All Tasks is Done`);
         this.isLoading = false;
       }
     },
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.auth.isLoggedIn;
+    },
+  },
+  created() {
+    if (this.isLogin) {
+      this.$router.push({ name: "contentPage" });
+    }
   },
 };
 </script>
@@ -113,6 +141,7 @@ export default {
   color: #000000;
   text-align: center;
   margin-bottom: 100px;
+  color: #fff;
 }
 
 .form-wrapper {
@@ -120,6 +149,7 @@ export default {
   margin: 0 auto;
   max-width: 400px;
   padding: 50px;
-  box-shadow: 5px 1px 15px 2px rgba(0, 0, 0, 0.43);
+  box-shadow: 5px 7px 29px 6px rgba(0, 0, 0, 1);
+  background-color: rgba(231, 230, 230, 0.7);
 }
 </style>

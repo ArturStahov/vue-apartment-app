@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <main class="content">
+    <main class="content home-bg">
       <router-view></router-view>
     </main>
     <Footer />
@@ -30,5 +30,12 @@ export default {
 }
 .content {
   flex-grow: 1;
+}
+
+.home-bg {
+  background: url(https://cdn.pixabay.com/photo/2020/03/27/15/33/norway-4973935_960_720.jpg)
+    no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 </style>

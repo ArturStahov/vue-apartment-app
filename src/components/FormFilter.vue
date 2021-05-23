@@ -1,6 +1,6 @@
 <template>
   <form class="form-filter" @submit.prevent="handlerSubmit">
-    <custom-input :typeInput="text" v-model="inputText" />
+    <custom-input :typeInput="'text'" v-model="inputText" />
     <custom-select :items="selectItems" v-model="select" />
     <custom-button type="submit">Filter</custom-button>
   </form>

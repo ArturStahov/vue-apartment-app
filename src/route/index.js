@@ -1,8 +1,8 @@
 import VueRouter from 'vue-router';
-import HomePage from './pages/HomePage';
-import ContentPage from './pages/ContentPage';
-import ErrorPage from './components/ErrorPage';
-import ApartmentPage from './pages/ApartmentPage'
+import HomePage from '../pages/HomePage';
+import ContentPage from '../pages/ContentPage';
+import ErrorPage from '../components/ErrorPage';
+import ApartmentPage from '../pages/ApartmentPage'
 
 
 const routes = [
