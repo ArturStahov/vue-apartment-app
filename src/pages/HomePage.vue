@@ -27,6 +27,7 @@ import * as eventAuthType from "../config";
 import Container from "../components/Container";
 import LoginForm from "../components/auth/LoginForm";
 import RegisterForm from "../components/auth/RegisterForm";
+import { mapActions } from "vuex";
 
 import {
   errorNotification,
@@ -52,6 +53,8 @@ export default {
   },
 
   methods: {
+    ...mapActions("auth", ["loginOperation", "registrationOperation"]),
+
     changeEvent(value) {
       console.log(value);
       this.toggleEvent = value;
@@ -73,7 +76,8 @@ export default {
       try {
         this.isLoading = true;
 
-        await this.$store.dispatch("auth/registrationOperation", formData);
+        //await this.$store.dispatch("auth/registrationOperation", formData);
+        await this.registrationOperation(formData);
 
         this.infoNotification("success!");
 
@@ -93,7 +97,10 @@ export default {
       try {
         this.isLoading = true;
 
-        await this.$store.dispatch("auth/loginOperation", formData);
+        //await this.$store.dispatch("auth/loginOperation", formData);
+
+        await this.loginOperation(formData);
+
         console.log("this.$store.state", this.$store.state);
 
         this.infoNotification("success!");

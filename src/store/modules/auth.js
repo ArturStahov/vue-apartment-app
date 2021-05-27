@@ -14,7 +14,7 @@ export default {
         changeUser(state, payload) {
             state.user = payload;
         },
-        logged(state, payload) {
+        isLogin(state, payload) {
             state.isLoggedIn = payload;
         }
     },
@@ -24,14 +24,14 @@ export default {
             const { data } = result.data;
 
             commit("changeUser", data);
-            commit("logged", true);
+            commit("isLogin", true);
         },
         async registrationOperation({ commit }, payload) {
             const result = await fetchRegistration(payload);
             const { data } = result.data;
 
             commit("changeUser", data);
-            commit("logged", true);
+            commit("isLogin", true);
         }
     }
 }

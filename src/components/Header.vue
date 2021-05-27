@@ -4,16 +4,19 @@
       <router-link class="logo" :to="{ name: 'homePage' }"
         >Apartment Service</router-link
       >
+      <UserBar />
     </Container>
   </header>
 </template>
 
 <script>
 import Container from "./Container";
+import UserBar from "./UserBar";
 export default {
   name: "Header",
   components: {
     Container,
+    UserBar,
   },
 };
 </script>
