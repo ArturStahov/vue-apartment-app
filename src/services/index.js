@@ -16,3 +16,7 @@ export const fetchRegistration = ({ email, password, name }) => {
         password,
     });
 };
+
+export const fetchLogOut = () => {
+    return axios.post('/api/users/logout');
+};

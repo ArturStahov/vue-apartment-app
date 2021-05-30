@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <Container>
+    <Container class="header-wrapper">
       <router-link class="logo" :to="{ name: 'homePage' }"
         >Apartment Service</router-link
       >
@@ -29,5 +29,10 @@ export default {
 .header {
   padding: 20px 0px;
   background-color: #272d42;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

@@ -34,6 +34,7 @@ export default {
       this.filter = value;
       console.log(this.filter);
     },
+
     filterByCityName(items) {
       if (!this.filter.city) {
         return items;
@@ -41,6 +42,7 @@ export default {
         return items.filter((item) => item.city === this.filter.city);
       }
     },
+
     filterByPrice(items) {
       if (!this.filter.price) {
         return items;
@@ -54,6 +56,16 @@ export default {
   computed: {
     filteredItems() {
       return this.filterByCityName(this.filterByPrice(this.Items));
+    },
+    isLogin() {
+      return this.$store.state.auth.isLoggedIn;
+    },
+  },
+  watch: {
+    isLogin(value) {
+      if (!value) {
+        this.$router.push({ name: "homePage" });
+      }
     },
   },
 };

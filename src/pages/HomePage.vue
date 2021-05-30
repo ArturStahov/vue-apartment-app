@@ -28,7 +28,6 @@ import Container from "../components/Container";
 import LoginForm from "../components/auth/LoginForm";
 import RegisterForm from "../components/auth/RegisterForm";
 import { mapActions } from "vuex";
-
 import {
   errorNotification,
   infoNotification,
@@ -36,6 +35,7 @@ import {
 
 export default {
   name: "HomePage",
+
   components: {
     Container,
     LoginForm,
@@ -76,12 +76,10 @@ export default {
       try {
         this.isLoading = true;
 
-        //await this.$store.dispatch("auth/registrationOperation", formData);
         await this.registrationOperation(formData);
 
         this.infoNotification("success!");
 
-        console.log("this.$store.state", this.$store.state);
         this.$router.push({ name: "contentPage" });
       } catch (error) {
         this.isLoading = false;
@@ -97,11 +95,7 @@ export default {
       try {
         this.isLoading = true;
 
-        //await this.$store.dispatch("auth/loginOperation", formData);
-
         await this.loginOperation(formData);
-
-        console.log("this.$store.state", this.$store.state);
 
         this.infoNotification("success!");
 
@@ -116,11 +110,13 @@ export default {
       }
     },
   },
+
   computed: {
     isLogin() {
       return this.$store.state.auth.isLoggedIn;
     },
   },
+
   created() {
     if (this.isLogin) {
       this.$router.push({ name: "contentPage" });
