@@ -2,6 +2,8 @@ import { fetchLogin, fetchRegistration, fetchLogOut } from "../../services";
 
 import axios from 'axios';
 
+import * as notification from '../../utils/errorNotification'
+
 const tokenController = {
     set(token) {
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -46,14 +48,14 @@ export default {
             }
         },
 
-        async registrationOperation({ commit }, payload) {
+        async registrationOperation(payload) {
             try {
-                const result = await fetchRegistration(payload);
-                const { data } = result.data;
+                await fetchRegistration(payload);
 
-                commit("changeUser", data);
-                commit("isLogin", true);
+                notification.infoNotification('registration success!')
+
             } catch (error) {
+                notification.errorNotification(error.message)
                 console.log(error);
             }
         },
