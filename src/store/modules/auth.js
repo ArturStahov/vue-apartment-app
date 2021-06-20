@@ -48,11 +48,12 @@ export default {
             }
         },
 
-        async registrationOperation(payload) {
+        async registrationOperation(_,payload) {
             try {
-                await fetchRegistration(payload);
+                console.log('payload!!!',payload)
+              await fetchRegistration(payload);
 
-                notification.infoNotification('registration success!')
+              notification.infoNotification('registration success!')
 
             } catch (error) {
                 notification.errorNotification(error.message)

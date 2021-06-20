@@ -69,10 +69,7 @@ export default {
     async registered(formData) {
       try {
         this.isLoading = true;
-
         await this.registrationOperation(formData);
-
-        // this.$router.push({ name: "contentPage" });
       } catch (error) {
         this.isLoading = false;
         console.log(error.message);

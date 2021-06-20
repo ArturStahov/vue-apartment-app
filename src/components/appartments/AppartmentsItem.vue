@@ -6,6 +6,7 @@
       class="apartment-photo"
     />
     <div class="apartment-info">
+      <p class="apartment-title">{{ title }}</p>
       <p class="apartment-desc">{{ descr }}</p>
       <p class="apartment-desc">{{ city }}</p>
       <div class="apartment-raiting">
@@ -29,16 +30,20 @@ export default {
     StarRaiting,
   },
   props: {
+    title: {
+      type: String,
+      default: "",
+    },
     descr: {
       type: String,
       default: "",
     },
     raiting: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "0",
     },
     price: {
-      type: Number,
+       type: String,
       require: true,
     },
     photoSrc: {
@@ -76,16 +81,18 @@ export default {
 }
 
 .apartment-info {
+  padding:30px 20px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 250px;
-  max-height: 200px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.3s ease-in;
+  background-color: rgba(0,0,0,0.6);
 }
 .apartment-raiting {
   margin-bottom: 10px;
@@ -102,6 +109,15 @@ export default {
   font-size: 1.4rem;
   color: #f7f1f1;
   font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.apartment-title{
+   max-height: calc(1em * 1.2 * 2);
+   overflow: hidden;
+  font-size: 1.6rem;
+  color: #f7f1f1;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 

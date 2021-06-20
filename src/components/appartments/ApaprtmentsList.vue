@@ -3,14 +3,15 @@
     <slot name="title">Default title</slot>
     <div class="apartment-list">
       <AppartmentsItem
-        v-for="{ id, raiting, price, descr, photoSrc, city } in items"
+        v-for="{ id, raiting, price, description, image, city,title } in items"
         :key="id"
         :id="id"
         :raiting="raiting"
         :price="price"
-        :descr="descr"
-        :photoSrc="photoSrc"
+        :descr="description"
+        :photoSrc="image"
         :city="city"
+        :title="title"
         class="aprtments-list_item"
       />
     </div>
@@ -38,11 +39,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+   gap:20px;
 }
 .aprtments-list_item {
-  margin-bottom: 30px;
-  &:nth-child(odd) {
-    margin-right: 30px;
-  }
+  border: 3px solid #272d42;
+  border-radius: 5px;
 }
 </style>

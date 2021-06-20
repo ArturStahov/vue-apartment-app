@@ -20,3 +20,23 @@ export const fetchRegistration = ({ email, password, name }) => {
 export const fetchLogOut = () => {
     return axios.post('/api/users/logout');
 };
+
+export const fetchGetAllPublicApartment = () => {
+    return axios.get('/api/apartment/all/');
+};
+
+export const fetchGetPublicApartmentByID = (id) => {
+    return axios.get(`/api/apartment/all/${id}`);
+};
+
+export const fetchGetAllMyApartment = () => {
+    return axios.get('/api/apartment/myapartment/');
+};
+
+export const fetchGetMyApartmentByID = (id) => {
+    return axios.get(`/api/apartment/myapartment/${id}`);
+};
+
+export const fetchCreateApartment = (data) => {
+    return axios.post('/api/apartment/myapartment/',data);
+};

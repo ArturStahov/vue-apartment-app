@@ -10,9 +10,9 @@
 
 <script>
 import ApartmentsList from "../components/appartments/ApaprtmentsList";
-import Items from "../apartMocup.json";
 import FormFilter from "../components/FormFilter.vue";
 import Container from "../components/Container.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "ContentPage",
@@ -25,11 +25,23 @@ export default {
 
   data() {
     return {
-      Items,
       filter: "",
+      Items:[]
     };
   },
+
   methods: {
+    ...mapActions("apartment", ["getAllApartments"]),
+
+    async init() {
+      try {
+        await this.getAllApartments();
+        this.Items = this.$store.state.apartment.apartment;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     handlerFilter(value) {
       this.filter = value;
       console.log(this.filter);
@@ -72,6 +84,8 @@ export default {
     if (!this.isLogin) {
       this.$router.push({ name: "homePage" });
     }
+
+    this.init();
   },
 };
 </script>
