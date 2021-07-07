@@ -101,4 +101,5 @@ export default {
   font-weight: 600;
   color: red;
 }
+
 </style>

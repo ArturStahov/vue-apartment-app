@@ -41,8 +41,6 @@ export default {
 <style lang="scss" scoped>
 .select {
   height: 40px;
-  width: 200px;
-  border: 2px solid #d16f1f;
   font-size: 16px;
   outline: none;
   color: #030303;

@@ -12,7 +12,7 @@
       <div class="apartment-raiting">
         <StarRaiting :raiting="raiting" />
       </div>
-      <p class="apartment-price">price: {{ price }} $ per/month</p>
+      <p class="apartment-price">price: {{ price }}</p>
     </div>
     <router-link
       :to="{ name: 'apartmentPage', params: { id }, query: { city } }"
@@ -58,6 +58,13 @@ export default {
       require: true,
     },
   },
+
+//  filters: {
+//     intlTW: function(value) {
+//       if (!value) return "";     
+//       return  new Intl.NumberFormat('zh-Hans-CN-u-nu-hanidec').format(Number(value))
+//     },
+//   },
   methods: {},
 };
 </script>

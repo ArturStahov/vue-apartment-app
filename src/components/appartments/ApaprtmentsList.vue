@@ -3,9 +3,9 @@
     <slot name="title">Default title</slot>
     <div class="apartment-list">
       <AppartmentsItem
-        v-for="{ id, raiting, price, description, image, city,title } in items"
-        :key="id"
-        :id="id"
+        v-for="{ _id, raiting, price, description, image, city,title } in items"
+        :key="_id"
+        :id="_id"
         :raiting="raiting"
         :price="price"
         :descr="description"
@@ -42,7 +42,7 @@ export default {
    gap:20px;
 }
 .aprtments-list_item {
-  border: 3px solid #272d42;
+  border: 3px solid #ececec;
   border-radius: 5px;
 }
 </style>

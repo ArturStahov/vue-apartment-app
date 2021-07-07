@@ -1,7 +1,7 @@
 <template>
   <form class="form-login" @submit.prevent="handlerSubmit">
     <p class="error-info">{{ errorInfo }}</p>
-    <!-- <p class="error-info">{{ userEmail | uppercase }}</p> -->
+    
     <custom-input
       :inputPlaceholder="'e-mail'"
       :typeInput="'email'"
@@ -59,13 +59,7 @@ export default {
   //     },
   //   },
   // },
-  // filters: {
-  //   uppercase: function(value) {
-  //     if (!value) return "";
-  //
-  //     return nameUser + "say:" + " " + value.toUpperCase();
-  //   },
-  // },
+ 
 
   methods: {
     validate() {

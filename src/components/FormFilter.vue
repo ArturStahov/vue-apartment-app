@@ -1,8 +1,8 @@
 <template>
   <form class="form-filter" @submit.prevent="handlerSubmit">
-    <custom-input :typeInput="'text'" v-model="inputText" />
-    <custom-select :items="selectItems" v-model="select" />
-    <custom-button type="submit">Filter</custom-button>
+    <custom-input :typeInput="'text'" v-model="inputText" class="input"/>
+    <custom-select :items="selectItems" v-model="select" class="select"/>
+    <custom-button type="submit" class="button-submit">Filter</custom-button>
   </form>
 </template>
 <script>
@@ -43,9 +43,26 @@ export default {
 
 <style lang="scss" scoped>
 .form-filter {
+  display:flex; 
   padding-top: 20px;
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
+.select{
+  width: 200px;
+}
+
+.input{
+  width: 30%;
+}
+.button-submit{
+  width: 30%;
+
+  @media screen and(max-width:768px) {
+     width: 100%;
+  }
+}
+
+
 </style>

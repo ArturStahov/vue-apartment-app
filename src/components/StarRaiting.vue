@@ -12,8 +12,8 @@
         name:"StarRaiting",
         props:{
             raiting:{
-                type:Number,
-                default:0
+                type:String,
+                default:"0"
             },
             starLimit:{
                 type:Number,
@@ -22,7 +22,7 @@
         },
         computed:{
               raitingWidth(){
-                  return this.raiting/this.starLimit *100 + '%'
+                  return Number(this.raiting)/this.starLimit *100 + '%'
               }
         }
     }
