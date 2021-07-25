@@ -1,4 +1,4 @@
-import { fetchGetAllPublicApartment } from "../../services";
+import { fetchGetAllPublicApartment,fetchGetPublicApartmentByID } from "../../services";
 
 
 import * as notification from '../../utils/errorNotification'
@@ -7,6 +7,7 @@ import * as notification from '../../utils/errorNotification'
 const initialState = {
     apartment: [],
     isLoading: false,
+    apartmentItem:{}
 }
 
 export default {
@@ -22,6 +23,9 @@ export default {
         },
         isLoading(state, payload) {
             state.isLoading = payload;
+        },
+        setApartmentItem(state,payload){
+            state.apartmentItem=payload
         }
     },
     actions: {
@@ -35,7 +39,13 @@ export default {
             } catch (error) {
                 notification.errorNotification(error.message)
             }
+        },
 
+        async getApartmentByID({ commit },payload){
+            const result=await fetchGetPublicApartmentByID(payload);
+            const {apartment}=result.data.data;
+            console.log(apartment,'oneApartmentResult!!!!!')
+            commit("setApartmentItem",apartment);
         }
         // async loginOperation({ commit }, payload) {
         //     try {

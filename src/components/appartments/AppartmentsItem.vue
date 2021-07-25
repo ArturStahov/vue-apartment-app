@@ -59,9 +59,12 @@ export default {
     },
   },
 
+
 //  filters: {
-//     intlTW: function(value) {
-//       if (!value) return "";     
+//     intlTW: function(value,item) {
+      
+//       if (!value) return "";    
+//       console.log(item) 
 //       return  new Intl.NumberFormat('zh-Hans-CN-u-nu-hanidec').format(Number(value))
 //     },
 //   },

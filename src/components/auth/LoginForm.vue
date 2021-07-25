@@ -1,12 +1,12 @@
 <template>
   <form class="form-login" @submit.prevent="handlerSubmit">
     <p class="error-info">{{ errorInfo }}</p>
-    
     <custom-input
       :inputPlaceholder="'e-mail'"
       :typeInput="'email'"
       v-model="userEmail"
       class="md"
+    
     />
     <custom-input
       :inputPlaceholder="'password'"
@@ -52,15 +52,7 @@ export default {
       focus: true,
     };
   },
-  // directives: {
-  //   yohoho: {
-  //     inserted: function(el) {
-  //       el.focus();
-  //     },
-  //   },
-  // },
  
-
   methods: {
     validate() {
       this.errorInfo = "";

@@ -1,46 +1,69 @@
 <template>
   <div class="wrapper">
-    <h2 class="title">
-      {{ title }}
-    </h2>
-    <img :src="photoSrc" :alt="title" class="apartment-photo" />
-    <p class="city">City: {{ city }}</p>
-    <p class="price">Price:{{ price }}</p>
-    <p class="description">Description:{{ descr }}</p>
+    <div class="description-block">
+      <div class="header-wrapper">
+        <StarRaiting :raiting="item.raiting" class="raiting-block"/>
+        <h2 class="titles">
+        {{ item.title ? item.title : "" }}
+      </h2>
+      </div>
+
+      <img
+        :src="item.image ? item.image : '/img/no-image.png'"
+        class="apartment-photo"
+      />
+      <p class="citys">City: {{ item.city ? item.city : "" }}</p>
+      <p class="prices">Price: {{ item.price ? item.price : "" }}</p>
+      <p class="descriptions">
+        Description:{{ item.description ? item.description : "" }}
+      </p>
+    </div>
+    
   </div>
 </template>
 
 <script>
+import StarRaiting from '../StarRaiting.vue'
+
+
+
 export default {
   name: "apartmentDescription",
+  components: {StarRaiting },
   props: {
-    title: {
-      type: String,
-      default: "",
+    item: {
+      type: Object,
+      default: () => {},
     },
-    descr: {
-      type: String,
-      default: "",
-    },
-    price: {
-      type: String,
-      require: true,
-    },
-    photoSrc: {
-      type: String,
-      default: "/img/no-image.png",
-    },
-    city: {
-      type: String,
-      require: true,
-    },
+  },
+  data() {
+    return {   
+     
+    };
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.header-wrapper{
+  display:flex;
+}
 .wrapper {
-  max-width: 600px;
+  display: flex;
+  max-width: 100%;
+  @media screen and(max-width:768px) {
+    flex-wrap:wrap;
+  }
+}
+
+.raiting-block{
+  padding:5px;background-color: #424242;
+  margin-right: 40px;
+}
+
+.description-block {
+  margin: 0px 30px 0px 0px;
+  max-width: 500px;
 }
 
 .apartment-photo {
@@ -50,29 +73,29 @@ export default {
   margin-bottom: 20px;
 }
 
-.title {
+.titles {
   text-align: center;
   font-size: 1.8rem;
-  color: #f8e10c;
+  color: #424242;
   font-weight: 600;
   margin-bottom: 20px;
 }
 
-.city {
+.citys {
   font-size: 1.6rem;
-  color: #f8e10c;
+  color: #114e05;
   font-weight: 600;
   margin-bottom: 10px;
 }
 
-.price {
+.prices {
   font-size: 1.6rem;
-  color: #f8e10c;
+  color: #114e05;
   font-weight: 700;
   margin-bottom: 10px;
 }
 
-.description {
+.descriptions {
   font-size: 1.4rem;
   color: #000000;
   font-weight: 600;

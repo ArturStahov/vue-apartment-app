@@ -17,7 +17,11 @@
         <span class="hamburger hamburger-3"></span>
       </label>
 
-      <button class="menu-item">
+      <button
+        class="menu-item"
+        :name="NAV_EVENT.buttonMyAdmin"
+        @click="handlerNav"
+      >
         <svg
           class="my-item icon"
           version="1.1"
@@ -35,24 +39,11 @@
         </svg>
       </button>
 
-      <button class="menu-item">
-        <svg
-          class="add icon"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          width="1024"
-          height="1024"
-          viewBox="0 0 1024 1024"
-        >
-          <title></title>
-          <g id="icomoon-ignore"></g>
-          <path
-            d="M672 800v-96h32v96h96v32h-96v96h-32v-96h-96v-32h96zM512.698 928h-288.781c-35.408 0-63.918-28.759-63.918-64.235v-735.531c0-35.488 28.776-64.235 64.273-64.235h319.727v192.061c0 35.565 28.739 63.939 64.189 63.939h159.811v303.941c-24.627-10.27-51.651-15.941-80-15.941-114.875 0-208 93.125-208 208 0 41.237 12 79.67 32.698 112v0 0zM576 64v191.906c0 17.725 14.431 32.094 31.705 32.094h160.295l-192-224zM688 992c97.202 0 176-78.798 176-176s-78.798-176-176-176c-97.202 0-176 78.798-176 176s78.798 176 176 176v0z"
-          ></path>
-        </svg>
-      </button>
-
-      <button class="menu-item" @click="handlerLogOut">
+      <button
+        class="menu-item"
+        :name="NAV_EVENT.buttonExit"
+        @click="handlerNav"
+      >
         <svg
           class="exit icon"
           version="1.1"
@@ -74,10 +65,13 @@
 
 <script>
 import { mapActions } from "vuex";
+import { NAV_EVENT } from "../config.js";
 export default {
   name: "UserBar",
   data() {
-    return {};
+    return {
+      NAV_EVENT,
+    };
   },
 
   computed: {
@@ -93,8 +87,30 @@ export default {
   methods: {
     ...mapActions("auth", ["logOutOperation"]),
 
-    handlerLogOut() {
-      this.logOutOperation();
+    handlerNav(e) {
+      const { name } = e.target;
+
+      switch (name) {
+        case NAV_EVENT.buttonMyAdmin:
+          this.openAdmin();
+          break;
+        case NAV_EVENT.buttonExit:
+          console.log(name);
+          this.logOutOperation();
+          break;
+
+        default:
+          console.log("error type event");
+          break;
+      }
+    },
+
+    openAdmin() {
+      console.log("open admin");
+      console.log(this.$router);
+      if (this.$router.history.current.name !== "myAdminPage") {
+        this.$router.push({ name: "myAdminPage" });
+      }
     },
   },
 };
@@ -108,6 +124,9 @@ export default {
   align-items: center;
 }
 
+.icon {
+  pointer-events: none;
+}
 .avatar {
   display: block;
   width: 30px;
@@ -129,7 +148,7 @@ export default {
 $fg: #ee9817;
 $pi: 3.14;
 
-$menu-items: 3;
+$menu-items: 2;
 $open-distance: 105px;
 $opening-angle: $pi * 2;
 $hamburger-spacing: 8px;

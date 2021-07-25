@@ -3,6 +3,7 @@ import HomePage from '../pages/HomePage';
 import ContentPage from '../pages/ContentPage';
 import ErrorPage from '../components/ErrorPage';
 import ApartmentPage from '../pages/ApartmentPage';
+import MyAdminPage from '../pages/MyAdminPage'
 // import store from '../store'
 
 
@@ -14,6 +15,11 @@ const routes = [
         meta: {
             hideForAuth: true
         }
+    },
+    {
+        path: '/my-admin',
+        component: MyAdminPage,
+        name: 'myAdminPage',  
     },
     {
         path: '/content',
