@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import StarRaiting from "../StarRaiting";
+import StarRaiting from "../StarRaitingView";
 
 export default {
   name: "AppartmensItem",

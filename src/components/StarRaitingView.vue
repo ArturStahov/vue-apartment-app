@@ -9,7 +9,7 @@
 
 <script>
     export default {
-        name:"StarRaiting",
+        name:"StarRaitingView",
         props:{
             raiting:{
                 type:String,

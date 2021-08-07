@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="description-block">
       <div class="header-wrapper">
-        <StarRaiting :raiting="item.raiting" class="raiting-block"/>
+        <StarRaitingAdd :raiting="item.raiting" class="raiting-block"/>
         <h2 class="titles">
         {{ item.title ? item.title : "" }}
       </h2>
@@ -23,13 +23,13 @@
 </template>
 
 <script>
-import StarRaiting from '../StarRaiting.vue'
+import StarRaitingAdd from '../StarRaitingAdd.vue'
 
 
 
 export default {
   name: "apartmentDescription",
-  components: {StarRaiting },
+  components: {StarRaitingAdd },
   props: {
     item: {
       type: Object,
@@ -57,8 +57,11 @@ export default {
 }
 
 .raiting-block{
-  padding:5px;background-color: #424242;
+  padding:5px;
+  background-color: #424242;
   margin-right: 40px;
+  width:200px;
+  height:50px;
 }
 
 .description-block {
