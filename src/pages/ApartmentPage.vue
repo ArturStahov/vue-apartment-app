@@ -1,22 +1,6 @@
 <template>
   <main class="main-wrapper">
-    <router-link :to="{ name: 'contentPage' }" class="button-back">
-      <svg
-        class="button-icon"
-        version="1.1"
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
-      >
-        <title>circle-left</title>
-        <path
-          d="M16 32c8.837 0 16-7.163 16-16s-7.163-16-16-16-16 7.163-16 16 7.163 16 16 16zM16 3c7.18 0 13 5.82 13 13s-5.82 13-13 13-13-5.82-13-13 5.82-13 13-13z"
-        ></path>
-        <path
-          d="M20.914 9.914l-2.829-2.829-8.914 8.914 8.914 8.914 2.828-2.828-6.086-6.086z"
-        ></path>
-      </svg>
-    </router-link>
+    <ButtonBack class="button-back"/>
     <ApartmentDescription :item="apartmentsItem" />
     <div class="comment-wrapper">
       <ApartmenCommentList :commentArray="testComment" class="comment-list" />
@@ -31,9 +15,10 @@ import { mapActions } from "vuex";
 import testCommentJson from "../commentTest.json";
 import ApartmenCommentList from "../components/apartmentPageComponents/ApartmenCommentList.vue";
 import CommentForm from "../components/apartmentPageComponents/CommentForm.vue";
+import ButtonBack from "../components/ButtonBack.vue";
 export default {
   name: "ApartmentPage",
-  components: { ApartmentDescription, ApartmenCommentList, CommentForm },
+  components: { ApartmentDescription, ApartmenCommentList, CommentForm,ButtonBack },
   data() {
     return {
       testComment: testCommentJson,
@@ -49,6 +34,7 @@ export default {
         console.log(error);
       }
     },
+
     handlerCommentForm(formData){
       // дописать роут на беке для отправки коментов на сервер а также получения комментов
       const payload={
@@ -93,15 +79,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/scss/variables";
-.button-icon {
-  width: 35px;
-  height: 35px;
-  fill: #fff;
-  transition: fill 0.4s ease-in;
-  &:hover {
-    fill: rgb(238, 160, 15);
-  }
-}
+
 .button-back {
   position: absolute;
   left: 0px;
@@ -112,7 +90,7 @@ export default {
   position: relative;
   padding: 20px 20px 20px 20px;
   max-width: 900px;
-  margin: 5% auto 3%;
+  margin: 5% auto 7%;
   background: rgba($color: #fff, $alpha: 0.7);
   @media screen and(max-width:768px) {
     flex-wrap: wrap;
