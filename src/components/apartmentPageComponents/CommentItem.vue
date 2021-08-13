@@ -1,11 +1,11 @@
 <template>
   <div class="wrapper">
     <img
-      :src="comment.userIcon ? comment.userIcon : 'img/no-image.png'"
+      :src="comment.authorAvatar ? comment.authorAvatar : 'img/no-image.png'"
       class="user-icon"
     />
-    <p class="data">{{ comment.data }}</p>
-    <p class="user-name">name: {{ comment.userName }}</p>
+    <!-- <p class="data">{{ comment.data }}</p> -->
+    <p class="user-name">name: {{ comment.authorName }}</p>
     <p class="comment">{{ comment.comment }}</p>
   </div>
 </template>

@@ -3,7 +3,7 @@
     <ButtonBack class="button-back"/>
     <ApartmentDescription :item="apartmentsItem" />
     <div class="comment-wrapper">
-      <ApartmenCommentList :commentArray="testComment" class="comment-list" />
+      <ApartmenCommentList :commentArray="apartmentComments" class="comment-list" />
       <CommentForm @submit="handlerCommentForm"/>
     </div>
   </main>
@@ -12,7 +12,6 @@
 <script>
 import ApartmentDescription from "../components/apartmentPageComponents/ApartmentDescription";
 import { mapActions } from "vuex";
-import testCommentJson from "../commentTest.json";
 import ApartmenCommentList from "../components/apartmentPageComponents/ApartmenCommentList.vue";
 import CommentForm from "../components/apartmentPageComponents/CommentForm.vue";
 import ButtonBack from "../components/ButtonBack.vue";
@@ -21,15 +20,17 @@ export default {
   components: { ApartmentDescription, ApartmenCommentList, CommentForm,ButtonBack },
   data() {
     return {
-      testComment: testCommentJson,
+      
     };
   },
+
   methods: {
-    ...mapActions("apartment", ["getApartmentByID"]),
+    ...mapActions("apartment", ["getApartmentByID","getAllComments","addComment"]),
 
     async initApartment(id) {
       try {
         await this.getApartmentByID(id);
+        await this.getAllComments(id);
       } catch (error) {
         console.log(error);
       }
@@ -40,12 +41,13 @@ export default {
       const payload={
         comment:formData.comment,
         projectId:this.$route.params.id,
-        commentAuthorId:this.user.id,  
-        commentAuthorName:this.user.name, 
-        commentAuthorEmail:this.user.email,
-        commentAuthorAvatar:this.user.avatar,      
+        authorId:this.user.id,  
+        authorName:this.user.name, 
+        authorEmail:this.user.email,
+        authorAvatar:this.user.avatar,      
       }
-      console.log('handlerCommentForm-formdata',payload)
+      console.log('handlerCommentForm-formdata',payload);
+      this.addComment(payload);
     }
   },
   created() {
@@ -65,6 +67,9 @@ export default {
     },
     apartmentsItem() {
       return this.$store.state.apartment.apartmentItem;
+    },
+    apartmentComments() {
+      return this.$store.state.apartment.apartmenComments;
     },
   },
   watch: {

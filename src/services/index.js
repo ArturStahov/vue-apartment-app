@@ -40,3 +40,13 @@ export const fetchGetMyApartmentByID = (id) => {
 export const fetchCreateApartment = (data) => {
     return axios.post('/api/apartment/myapartment/',data);
 };
+
+export const getAllComments = (projectId) => {
+    return axios.get(`/api/apartment/comment/${projectId}`);
+};
+
+export const addComment = (data) => {
+    return axios.post('/api/apartment/comment/',data);
+};
+
+
