@@ -3,7 +3,8 @@
     <ButtonBack class="button-back"/>
     <ApartmentDescription :item="apartmentsItem" />
     <div class="comment-wrapper">
-      <ApartmenCommentList :commentArray="apartmentComments" class="comment-list" />
+      <ApartmenCommentList v-show="apartmentComments.length" :commentArray="apartmentComments" class="comment-list" />
+      <p v-show="!apartmentComments.length" class="informer">No Comments</p>
       <CommentForm @submit="handlerCommentForm"/>
     </div>
   </main>
@@ -69,7 +70,7 @@ export default {
       return this.$store.state.apartment.apartmentItem;
     },
     apartmentComments() {
-      return this.$store.state.apartment.apartmenComments;
+      return this.$store.state.apartment.apartmentComments;
     },
   },
   watch: {
@@ -90,6 +91,14 @@ export default {
   left: 0px;
   bottom: -60px;
 }
+
+.informer{
+  text-align: center;
+  font-size: 16px;
+  color:grey;
+  margin-bottom: 10px;
+}
+
 .main-wrapper {
   display: flex;
   position: relative;

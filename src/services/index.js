@@ -42,11 +42,11 @@ export const fetchCreateApartment = (data) => {
 };
 
 export const getAllComments = (projectId) => {
-    return axios.get(`/api/apartment/comment/${projectId}`);
+    return axios.get(`/api/comment/${projectId}`);
 };
 
 export const addComment = (data) => {
-    return axios.post('/api/apartment/comment/',data);
+    return axios.post('/api/comment/',data);
 };
 
 

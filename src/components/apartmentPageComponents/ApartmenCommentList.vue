@@ -1,12 +1,12 @@
 <template>
-  <div v-show="commentArray.length > 0" class="wrapper-comment">
+  <div class="wrapper-comment">
     <CommentItem
       v-for="commentObject in commentArray"
       :comment="commentObject"
       :key="commentObject.id"
       class="comment-item"
     />
-  </div>
+  </div> 
 </template>
 
 <script>
