@@ -1,5 +1,5 @@
 <template>
-  <form class="form-wrapper">
+  <div class="wrapper">
     <div class="raiting">
       <div class="raiting_body">
         <div :style="ratingWidth" class="raiting_active">         
@@ -12,27 +12,36 @@
             <input type="radio" class="rating_item" value="5" name="rating" v-model="ratingInputValue"/>
           </div>
       </div>
-      <div class="rating_vallue">
+      <p class="rating_vallue">
         {{ratingValue}}
-      </div>
+      </p>
+      
+      <IconUsers class="icons-user"/>
+
+      <p class="rating-counter-vallue">
+        {{ratingCounter}}
+      </p>
     </div>
     <div class="control_wrapper">
         <p class="control-info">add raiting</p>
-        <button class="button-add-raiting">
+        <button @click="handlerAddReiting" class="button-add-raiting">
           <IconAddRaiting class="icon-raiting"/>
         </button>
     </div>
     
-  </form>
+  </div>
 </template>
 
 <script>
-import IconAddRaiting from '../assets/svg/icon-ok.svg'
+import IconAddRaiting from '../assets/svg/icon-ok.svg';
+import IconUsers from '../assets/svg/icon-users.svg'
+import { mapActions } from "vuex";
 
 export default {
   name: "StarRaitingAdd",
   components:{
-    IconAddRaiting
+    IconAddRaiting,
+    IconUsers
   },
   data() {
       return{         
@@ -41,11 +50,11 @@ export default {
   },
 
   props: {
-    raiting: {
+    rating: {
       type: String,
       default: "0",
     },
-    raitingCounter: {
+    ratingCounter: {
       type: String,
       default: "0",
     },
@@ -53,45 +62,62 @@ export default {
       type: Number,
       default: 5,
     },
+    itemObject:{
+      type:Object
+    }
   },
-  // methods:{
-  //   init(){
-  //     if(this.raiting>0){
+  methods:{
+    ...mapActions("apartment", ["updateAppartmentItem"]),
 
-  //     }
-  //   }
+    handlerAddReiting(){
+      console.log(this.itemObject)
+      
 
-  // },
+      if(this.itemObject){
+        let newRating=Number(this.itemObject.rating) + Number(this.ratingInputValue);
+        let newRatingCounter=Number(this.ratingCounter) + 1;
+    
+        this.itemObject.rating=newRating.toString();
+        this.itemObject.ratingCounter=newRatingCounter.toString();
 
-  // created(){
-  //  this.init();
-  // },
+        this.updateAppartmentItem(this.itemObject);
+        this.ratingInputValue=(newRating / newRatingCounter).toFixed(1);
+      }
+      
+    }
+  },
 
   computed:{  
     ratingValue(){
-      let calcRaiting=0;
-      if(this.raiting>0){
-        calcRaiting=Number(this.raiting) / Number(this.raitingCounter);
+      let calcRating=0;
+      if(Number(this.rating) > 0){
+        calcRating=(Number(this.rating) / Number(this.ratingCounter)).toFixed(1);    
       }
       
-      return calcRaiting;
+      return calcRating;
     },  
-    
+
     ratingWidth(){
        let width=0;
-       if(this.ratingInputValue!=0){
+       if(this.ratingInputValue){
          width=Number(this.ratingInputValue) / 0.05;
        }
-         return `width:${width}%;`;
+
+       if(!this.ratingInputValue && this.rating) {
+         width=Number(this.ratingValue)/0.05
+       }
+         return `width:${width.toFixed(2)}%;`;
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.form-wrapper {
-  cursor: pointer;
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
 }
+
 .raiting {
   display: flex;
   align-items: flex-end;
@@ -150,6 +176,20 @@ export default {
   color: #f7cc40;
   line-height: 1;
   padding: 0px 0px 0px 10px;
+  margin-right: 15px;
+}
+
+.rating-counter-vallue {
+  font-size: 16px;
+  color: #f7cc40;
+  line-height: 1;
+  padding: 0px 0px 0px 10px;
+}
+
+.icons-user {
+  width: 15px;
+  height: 20px;
+  fill:#f7cc40;
 }
 
 .control-info {

@@ -2,7 +2,12 @@
   <div class="wrapper">
     <div class="description-block">
       <div class="header-wrapper">
-        <StarRaitingAdd :raiting="item.raiting" :raitingCounter="item.raitingCounter" class="raiting-block"/>
+        <StarRaitingAdd 
+         :rating="item.rating"
+         :ratingCounter="item.ratingCounter"
+         :itemObject="item"
+         class="raiting-block"
+         />
         <h2 class="titles">
         {{ item.title ? item.title : "" }}
       </h2>
@@ -24,8 +29,6 @@
 
 <script>
 import StarRaitingAdd from '../StarRaitingAdd.vue'
-
-
 
 export default {
   name: "apartmentDescription",

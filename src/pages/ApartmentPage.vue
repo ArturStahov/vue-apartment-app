@@ -38,7 +38,6 @@ export default {
     },
 
     handlerCommentForm(formData){
-      // дописать роут на беке для отправки коментов на сервер а также получения комментов
       const payload={
         comment:formData.comment,
         projectId:this.$route.params.id,

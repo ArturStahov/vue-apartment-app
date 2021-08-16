@@ -74,8 +74,18 @@ export default {
                 console.log(comment,'resultCommentADD!!!!!')
                 commit("addComment",comment);
             } catch (error) {
-                notification.errorNotification(error.message)
+                notification.errorNotification(error.message);
             } 
-        },        
+        }, 
+        
+        async updateAppartmentItem({commit},payload) {
+            try {
+                console.log("Update Item Apartment",payload);
+                commit('setApartmentItem',payload)
+                
+            } catch (error) {
+                notification.errorNotification(error.message) 
+            }
+        }
     }
 }
