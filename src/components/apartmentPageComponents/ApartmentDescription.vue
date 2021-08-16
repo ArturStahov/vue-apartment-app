@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="description-block">
       <div class="header-wrapper">
-        <StarRaitingAdd :raiting="item.raiting" class="raiting-block"/>
+        <StarRaitingAdd :raiting="item.raiting" :raitingCounter="item.raitingCounter" class="raiting-block"/>
         <h2 class="titles">
         {{ item.title ? item.title : "" }}
       </h2>
@@ -61,7 +61,6 @@ export default {
   background-color: #424242;
   margin-right: 40px;
   width:200px;
-  height:50px;
 }
 
 .description-block {

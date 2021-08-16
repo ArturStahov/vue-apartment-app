@@ -1,9 +1,12 @@
 <template>
   <header class="header">
     <Container class="header-wrapper">
-      <router-link class="logo" :to="{ name: 'homePage' }"
-        >Apartment Service</router-link
+      <router-link 
+      class="logo" 
+      :to="{ name: 'homePage' }"
       >
+        Apartment Service
+      </router-link>
       <UserBar />
     </Container>
   </header>
