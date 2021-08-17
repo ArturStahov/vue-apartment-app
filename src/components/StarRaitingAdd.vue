@@ -70,9 +70,7 @@ export default {
     ...mapActions("apartment", ["updateAppartmentItem"]),
 
     handlerAddReiting(){
-      console.log(this.itemObject)
       
-
       if(this.itemObject){
         let newRating=Number(this.itemObject.rating) + Number(this.ratingInputValue);
         let newRatingCounter=Number(this.ratingCounter) + 1;

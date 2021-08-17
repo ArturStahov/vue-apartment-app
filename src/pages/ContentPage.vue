@@ -1,11 +1,11 @@
 <template>
-  <container>
-    <form-filter @submit="handlerFilter" />
+  <Container>
+    <FormFilter @submit="handlerFilter" />
     <p v-if="!filteredItems.length" class="warning">No Filter Result!</p>
     <ApartmentsList :items="filteredItems">
       <template v-slot:title><h1 class="title">Apartments:</h1></template>
     </ApartmentsList>
-  </container>
+  </Container>
 </template>
 
 <script>
