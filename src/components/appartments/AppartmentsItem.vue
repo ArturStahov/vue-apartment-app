@@ -10,7 +10,7 @@
       <p class="apartment-desc">{{ descr }}</p>
       <p class="apartment-desc">{{ city }}</p>
       <div class="apartment-raiting">
-        <StarRaiting :raiting="raiting" />
+        <StarRaiting :raiting="raiting" :ratingCounter="ratingCounter" />
       </div>
       <p class="apartment-price">price: {{ price }}</p>
     </div>
@@ -40,7 +40,9 @@ export default {
     },
     raiting: {
       type: String,
-      default: "0",
+    },
+    ratingCounter:{
+      type:String
     },
     price: {
        type: String,

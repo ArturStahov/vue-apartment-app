@@ -14,21 +14,18 @@
       </div>
       <p class="rating_vallue">
         {{ratingValue}}
-      </p>
-      
+      </p>    
       <IconUsers class="icons-user"/>
-
       <p class="rating-counter-vallue">
         {{ratingCounter}}
       </p>
     </div>
     <div class="control_wrapper">
         <p class="control-info">add raiting</p>
-        <button @click="handlerAddReiting" class="button-add-raiting">
+        <button @click="handlerAddReiting" :class="addRating ? 'button-add-raiting':'button-add-raiting disabled-button'">
           <IconAddRaiting class="icon-raiting"/>
         </button>
-    </div>
-    
+    </div>  
   </div>
 </template>
 
@@ -43,9 +40,11 @@ export default {
     IconAddRaiting,
     IconUsers
   },
+
   data() {
       return{         
           ratingInputValue:'',
+          addRating:true
       }
   },
 
@@ -66,12 +65,12 @@ export default {
       type:Object
     }
   },
+
   methods:{
     ...mapActions("apartment", ["updateAppartmentItem"]),
 
-    handlerAddReiting(){
-      
-      if(this.itemObject){
+    handlerAddReiting(){    
+      if(this.itemObject && this.addRating &&  this.ratingInputValue) {
         let newRating=Number(this.itemObject.rating) + Number(this.ratingInputValue);
         let newRatingCounter=Number(this.ratingCounter) + 1;
     
@@ -80,8 +79,9 @@ export default {
 
         this.updateAppartmentItem(this.itemObject);
         this.ratingInputValue=(newRating / newRatingCounter).toFixed(1);
-      }
-      
+
+        this.addRating=false; 
+      }    
     }
   },
 
@@ -220,4 +220,13 @@ export default {
   width: 20px;
   height: 20px;
 }
+
+.disabled-button {  
+  background-color:rgba(247,204,64,0.27);
+  cursor: default;
+  &:hover {
+     box-shadow: none;
+  }
+}
+
 </style>

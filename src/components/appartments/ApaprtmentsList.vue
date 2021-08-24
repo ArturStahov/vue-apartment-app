@@ -3,15 +3,16 @@
     <slot name="title">Default title</slot>
     <div class="apartment-list">
       <AppartmentsItem
-        v-for="{ _id, raiting, price, description, image, city,title } in items"
+        v-for="{ _id, rating, price, description, image, city,title, ratingCounter } in items"
         :key="_id"
         :id="_id"
-        :raiting="raiting"
+        :raiting="rating"
         :price="price"
         :descr="description"
         :photoSrc="image"
         :city="city"
         :title="title"
+        :ratingCounter="ratingCounter"
         class="aprtments-list_item"
       />
     </div>

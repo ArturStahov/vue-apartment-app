@@ -13,7 +13,9 @@
         props:{
             raiting:{
                 type:String,
-                default:"0"
+            },
+            ratingCounter:{
+                type:String,            
             },
             starLimit:{
                 type:Number,
@@ -21,8 +23,15 @@
             }
         },
         computed:{
+              ratingValue(){
+                  if(this.ratingCounter){
+                    return Number(this.raiting) / Number(this.ratingCounter);
+                  }
+                  return '0';                
+              },
+
               raitingWidth(){
-                  return Number(this.raiting)/this.starLimit *100 + '%'
+                  return Number(this.ratingValue)/this.starLimit *100 + '%';
               }
         }
     }
