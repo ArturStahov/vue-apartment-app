@@ -1,4 +1,4 @@
-import { fetchGetAllPublicApartment,fetchGetPublicApartmentByID,getAllComments,addComment,fetchUpdateApartment } from "../../services";
+import { fetchGetAllPublicApartment,fetchGetPublicApartmentByID,getAllComments,addComment,fetchUpdateApartment,fetchCreateApartment } from "../../services";
 import * as notification from '../../utils/errorNotification'
 
 
@@ -31,6 +31,9 @@ export default {
         },
         addComment(state,payload) {
             state.apartmentComments=[...state.apartmentComments,payload];
+        },
+        addApartmentItem(state,payload) {
+            state.apartment=[...state.apartment,payload];
         }
     },
 
@@ -81,6 +84,18 @@ export default {
                 const {apartment}=result.data.data;
                 console.log("result update apartment",apartment)
                 commit('setApartmentItem',apartment)
+                
+            } catch (error) {
+                notification.errorNotification(error.message) 
+            }
+        },
+
+        async addAppartmentItem({commit},payload) {
+            try {
+                const result=await fetchCreateApartment(payload);
+                const {apartment}=result.data.data;
+                console.log("result add apartment",apartment)
+                commit('addApartmentItem',apartment)
                 
             } catch (error) {
                 notification.errorNotification(error.message) 
