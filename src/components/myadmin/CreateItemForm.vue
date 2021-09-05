@@ -79,4 +79,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.input {
+  margin-bottom: 10px;
+}
+
+</style>

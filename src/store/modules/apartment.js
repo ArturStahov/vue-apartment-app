@@ -1,9 +1,10 @@
-import { fetchGetAllPublicApartment,fetchGetPublicApartmentByID,getAllComments,addComment,fetchUpdateApartment,fetchCreateApartment } from "../../services";
+import { fetchGetAllPublicApartment,fetchGetPublicApartmentByID,getAllComments,addComment,fetchUpdateApartment,fetchCreateApartment,fetchGetAllMyApartment } from "../../services";
 import * as notification from '../../utils/errorNotification'
 
 
 const initialState = {
     apartment: [],
+    myApartments: [],
     isLoading: false,
     apartmentItem:{},
     apartmentComments:[]
@@ -19,6 +20,9 @@ export default {
     mutations: {
         allAaprtments(state, payload) {
             state.apartment = payload;
+        },
+        allMyApartments(state, payload) {
+            state.myApartments = payload;
         },
         isLoading(state, payload) {
             state.isLoading = payload;
@@ -44,6 +48,17 @@ export default {
                 const {apartment}=result.data.data;
                 console.log(apartment,'resultAll!!!!!')
                 commit("allAaprtments",apartment);
+            } catch (error) {
+                notification.errorNotification(error.message)
+            }
+        },
+
+        async getAllMyApartments({commit}){
+            try {
+                const result=await fetchGetAllMyApartment();
+                const {apartment}=result.data.data;
+                console.log(apartment,'resultAllMy-apartments!!!!!')
+                commit("allMyApartments",apartment);
             } catch (error) {
                 notification.errorNotification(error.message)
             }
