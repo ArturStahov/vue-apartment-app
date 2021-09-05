@@ -1,26 +1,41 @@
 <template>
   <div class="main-wrapper">
     <section class="section-form">
-      <h2 class="section-form__title">Form create apartment</h2>
-      <CreateItemForm  @submit="handlerCreateItem" />
+      <h2 class="section-title">Form create apartment</h2>
+      <CreateItemForm @submit="handlerCreateItem" />
     </section>
-    
+    <section class="section-my-apartments">
+      <h2 class="section-title">You apartments</h2>
+      <p class="no-items" v-if="!items.length">create you apartments!</p>
+      <div class="apartments-list" v-if="items.length>0">
+        <ItemListElement
+          v-for="{ _id, rating, image, ratingCounter } in items"
+          :key="_id"
+          :id="_id"
+          :rating="rating"
+          :image="image"
+          :ratingCounter="ratingCounter"
+          class="list_item"
+        />
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 import CreateItemForm from "../components/myadmin/CreateItemForm";
+import ItemListElement from "../components/myadmin/ItemListElement";
 import { mapActions } from "vuex";
 
 export default {
   name: "MyAdminPage",
 
-  components: { CreateItemForm },
+  components: { CreateItemForm, ItemListElement },
 
   data() {
-    return { 
-     items:[],
-    }
+    return {
+      items: [],
+    };
   },
 
   computed: {
@@ -30,9 +45,9 @@ export default {
   },
 
   methods: {
-    ...mapActions("apartment", ["addAppartmentItem","getAllMyApartments"]),
+    ...mapActions("apartment", ["addAppartmentItem", "getAllMyApartments"]),
 
-     async init() {
+    async init() {
       try {
         await this.getAllMyApartments();
         this.items = this.$store.state.apartment.myApartments;
@@ -61,11 +76,41 @@ export default {
 
 .section-form {
   width: 450px;
-  &__title{
+}
+
+.no-items{
     font-size: 1.6rem;
     text-align: center;
     margin-bottom: 10px;
     color: #fff;
+}
+
+.section-title{
+   font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.section-my-apartments {
+  padding: 0px 10px 0px;
+  border: 2px solid grey;
+  width: 100%;
+
+  .apartments-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .list_item {
+    width: 80px;
+    height: 100px;
+    margin-bottom: 10px;
+    
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
   }
 }
 
@@ -75,10 +120,20 @@ export default {
   justify-content: flex-start;
 }
 
-@media all and(max-width:$mobile-bp-max) {
+@media all and(max-width: $mobile-bp-max) {
   .main-wrapper {
-    display: flex;
     justify-content: center;
+    flex-direction: column;
+  }
+
+  .section-form {
+    margin: 0 auto 20px;
+  }
+}
+
+@media all and(max-width: $mobile-bp) {
+  .section-form {
+    width: 100%;
   }
 }
 </style>
