@@ -94,12 +94,16 @@ export default {
 
 .section-my-apartments {
   padding: 0px 10px 0px;
-  border: 2px solid grey;
   width: 100%;
 
   .apartments-list {
+    padding: 10px;
+    height:330px;
+    overflow-y: auto;
+    background: rgba(190, 190, 190, 0.397);
+    border: 2px solid grey;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
   }
   
@@ -128,6 +132,10 @@ export default {
 
   .section-form {
     margin: 0 auto 20px;
+  }
+
+  .apartments-list {  
+    justify-content: center;
   }
 }
 
