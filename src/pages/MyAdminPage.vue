@@ -97,7 +97,7 @@ export default {
   width: 100%;
 
   .apartments-list {
-    padding: 10px;
+    padding: 15px;
     height:330px;
     overflow-y: auto;
     background: rgba(190, 190, 190, 0.397);
@@ -108,12 +108,12 @@ export default {
   }
   
   .list_item {
-    width: 80px;
-    height: 100px;
+    width: 120px;
+    height: 150px;
     margin-bottom: 10px;
     
     &:not(:last-child) {
-      margin-right: 10px;
+      margin-right: 15px;
     }
   }
 }

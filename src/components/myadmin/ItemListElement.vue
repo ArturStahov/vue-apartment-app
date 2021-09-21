@@ -2,14 +2,24 @@
   <div class="item">
     <img :src="image" alt="photo apartment" class="apartment-photo" />
     <div class="overlay">
-      <span class="informer">
-        {{ rating }}
-      </span>
       <div class="informer-wrapper">
-        <IconUsers class="icons-user" />
         <span class="informer">
-          {{ ratingCounter }}
+          {{ rating }}
+          <IconRating class="icons-user" />
         </span>
+
+        <span class="informer">          
+          {{ ratingCounter }}
+          <IconUsers class="icons-user" />
+        </span>
+        <span class="informer">          
+          {{ cardComments.length }}
+          <IconComments class="icons-user" />
+        </span>
+      </div>
+      <div class="control-wrapper">
+        <button class="control-button"> <IconDelete class="control-icon"/></button>
+        <button class="control-button"> <IconEdit class="control-icon"/></button>
       </div>
     </div>
   </div>
@@ -17,11 +27,20 @@
 
 <script>
 import IconUsers from "../../assets/svg/icon-users.svg";
+import IconEdit from "../../assets/svg/pencil.svg";
+import IconDelete from "../../assets/svg/delete.svg";
+import IconRating from "../../assets/svg/star.svg";
+import IconComments from "../../assets/svg/comments.svg";
+
 
 export default {
   name: "ItemListElement",
   components: {
     IconUsers,
+    IconEdit,
+    IconDelete,
+    IconRating,
+    IconComments,
   },
 
   props: {
@@ -29,16 +48,35 @@ export default {
       type: String,
       default: "/img/no-image.png",
     },
+
     ratingCounter: {
       type: String,
     },
+
     rating: {
       type: String,
     },
+
     id: {
       require: true,
     },
   },
+  data() {
+    return {
+      cardComments:[]
+    }
+  },
+  created() {
+      
+  },
+  
+  methods: {
+   
+  
+  },
+  computed: {
+    
+  }
 };
 </script>
 
@@ -62,9 +100,32 @@ export default {
   fill: #f7cc40;
 }
 
-.informer-wrapper{
+.informer-wrapper {
   display: flex;
-  
+  flex-direction: column;
+}
+.control-wrapper {
+  display: flex;
+  position: absolute;
+  bottom: 1%;
+}
+
+.control-button{
+  width: 30px;
+  height: 30px;
+  display: flex;
+  margin-right: 5px;
+  align-items:center;
+  justify-content:center;
+  background: #f7cc40;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+}
+
+.control-icon {
+  width: 20px;
+  height: 20px;
 }
 
 .item {
@@ -83,9 +144,10 @@ export default {
 }
 
 .overlay {
+  position: relative;
   padding: 5px;
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   position: absolute;
   top: 0px;
   right: 0px;
