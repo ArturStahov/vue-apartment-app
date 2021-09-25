@@ -5,6 +5,7 @@
       :type="typeInput"
       class="input-text"
       :placeholder="inputPlaceholder"
+      ref="custInput"
     />
   </div>
 </template>
@@ -21,6 +22,14 @@ export default {
       type: String,
       default: "text",
     },
+    editProps: {
+      type: String,
+      default: "",
+    },
+    clearInputValue:{
+      type:Boolean,
+      default:false
+    }
   },
   computed: {
     listeners() {
@@ -29,6 +38,18 @@ export default {
         input: (event) => this.$emit("input", event.target.value),
       };
     },
+  },
+  watch: {
+    editProps(editValue) {
+      if (editValue) {
+        this.$refs.custInput.value = editValue;
+      }
+    },
+    clearInputValue(value){
+      if(value){
+        this.$refs.custInput.value = '';
+      }
+    }
   },
 };
 </script>

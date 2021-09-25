@@ -4,12 +4,12 @@
     <div class="overlay">
       <div class="informer-wrapper">
         <span class="informer">
-          {{ rating }}
+          {{ item.rating }}
           <IconRating class="icons-user" />
         </span>
 
         <span class="informer">          
-          {{ ratingCounter }}
+          {{ item.ratingCounter }}
           <IconUsers class="icons-user" />
         </span>
         <span class="informer">          
@@ -19,7 +19,7 @@
       </div>
       <div class="control-wrapper">
         <button class="control-button"> <IconDelete class="control-icon"/></button>
-        <button class="control-button"> <IconEdit class="control-icon"/></button>
+        <button @click="handlerItemEdit" class="control-button"> <IconEdit class="control-icon"/></button>
       </div>
     </div>
   </div>
@@ -48,19 +48,12 @@ export default {
       type: String,
       default: "/img/no-image.png",
     },
-
-    ratingCounter: {
-      type: String,
-    },
-
-    rating: {
-      type: String,
-    },
-
-    id: {
-      require: true,
-    },
+    item:{ 
+      type:Object,
+      required: true,
+    }
   },
+
   data() {
     return {
       cardComments:[]
@@ -71,9 +64,12 @@ export default {
   },
   
   methods: {
-   
+   handlerItemEdit(){
+     this.$emit('selectEditItem',this.item);
+   }
   
   },
+  
   computed: {
     
   }

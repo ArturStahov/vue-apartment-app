@@ -7,7 +7,7 @@ const initialState = {
     myApartments: [],
     isLoading: false,
     apartmentItem:{},
-    apartmentComments:[]
+    apartmentComments:[],
 }
 
 export default {
@@ -38,7 +38,9 @@ export default {
         },
         addApartmentItem(state,payload) {
             state.apartment=[...state.apartment,payload];
-        }
+        },
+       
+
     },
 
     actions: {
@@ -115,6 +117,8 @@ export default {
             } catch (error) {
                 notification.errorNotification(error.message) 
             }
-        }
+        },
+
+        
     }
 }

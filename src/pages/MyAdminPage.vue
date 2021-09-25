@@ -2,19 +2,18 @@
   <div class="main-wrapper">
     <section class="section-form">
       <h2 class="section-title">Form create apartment</h2>
-      <CreateItemForm @submit="handlerCreateItem" />
+      <CreateItemForm @submitCreate="handlerCreateItem" @submitUpdate="handlerEventUpdate" :editItem="selectEditItem"/>
     </section>
     <section class="section-my-apartments">
       <h2 class="section-title">You apartments</h2>
       <p class="no-items" v-if="!items.length">create you apartments!</p>
       <div class="apartments-list" v-if="items.length>0">
         <ItemListElement
-          v-for="{ _id, rating, image, ratingCounter } in items"
-          :key="_id"
-          :id="_id"
-          :rating="rating"
-          :image="image"
-          :ratingCounter="ratingCounter"
+          v-for="item in items"
+          :key="item._id"
+          :item="item"
+          :image="item.image"
+          @selectEditItem="handlerEditItem"
           class="list_item"
         />
       </div>
@@ -35,6 +34,7 @@ export default {
   data() {
     return {
       items: [],
+      selectEditItem:{}
     };
   },
 
@@ -45,7 +45,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("apartment", ["addAppartmentItem", "getAllMyApartments"]),
+    ...mapActions("apartment", ["addAppartmentItem", "getAllMyApartments","updateAppartmentItem"]),
 
     async init() {
       try {
@@ -58,7 +58,17 @@ export default {
 
     handlerCreateItem(value) {
       this.addAppartmentItem(value);
+       console.log("create",value)
     },
+
+    handlerEventUpdate(value){
+      console.log("updatwe",value);
+      this.updateAppartmentItem(value);
+    },
+
+    handlerEditItem(item){
+         this.selectEditItem=item;
+    }
   },
 
   created() {

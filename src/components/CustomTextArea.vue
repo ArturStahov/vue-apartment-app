@@ -4,6 +4,7 @@
       v-on="listeners"    
       class="input-text"
       :placeholder="inputPlaceholder"
+      ref="custTextArea"
     ></textarea>
  
 </template>
@@ -16,6 +17,14 @@ export default {
       type: String,
       default: "input",
     },
+    editProps: {
+      type: String,
+      default: "",
+    },
+    clearInputValue:{
+      type:Boolean,
+      default:false
+    }
   },
   computed: {
     listeners() {
@@ -24,6 +33,18 @@ export default {
         input: (event) => this.$emit("input", event.target.value),
       };
     },
+  },
+  watch: {
+    editProps(editValue) {
+      if (editValue) {
+        this.$refs.custTextArea.value = editValue;
+      }
+    },
+    clearInputValue(value){
+      if(value){
+        this.$refs.custTextArea.value = '';
+      }
+    }
   },
 };
 </script>
