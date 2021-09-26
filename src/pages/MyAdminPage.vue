@@ -2,22 +2,34 @@
   <div class="main-wrapper">
     <section class="section-form">
       <h2 class="section-title">Form create apartment</h2>
-      <CreateItemForm @submitCreate="handlerCreateItem" @submitUpdate="handlerEventUpdate" :editItem="selectEditItem"/>
+      <CreateItemForm
+        @submitCreate="handlerCreateItem"
+        @submitUpdate="handlerEventUpdate"
+        :editItem="selectEditItem"
+      />
     </section>
     <section class="section-my-apartments">
       <h2 class="section-title">You apartments</h2>
       <p class="no-items" v-if="!items.length">create you apartments!</p>
-      <div class="apartments-list" v-if="items.length>0">
+      <div class="apartments-list" v-if="items.length > 0">
         <ItemListElement
           v-for="item in items"
           :key="item._id"
           :item="item"
           :image="item.image"
           @selectEditItem="handlerEditItem"
+          @selectDeleteItem="handlerDeleteItem"
           class="list_item"
         />
       </div>
     </section>
+    <Modal :show="showModal">
+      <div>
+        <p class="header-modal">remove it?</p>
+        <button class="modal-button">Remove</button>
+        <button @click="handlerCancelDelete" class="modal-button">Cancel</button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -25,16 +37,22 @@
 import CreateItemForm from "../components/myadmin/CreateItemForm";
 import ItemListElement from "../components/myadmin/ItemListElement";
 import { mapActions } from "vuex";
-
+import Modal from "../components/Modal.vue";
 export default {
   name: "MyAdminPage",
 
-  components: { CreateItemForm, ItemListElement },
+  components: {
+    CreateItemForm,
+    ItemListElement,
+    Modal,
+  },
 
   data() {
     return {
       items: [],
-      selectEditItem:{}
+      selectEditItem: {},
+      isShowModals: false,
+      deleteItemId: null,
     };
   },
 
@@ -42,10 +60,17 @@ export default {
     isLogin() {
       return this.$store.state.auth.isLoggedIn;
     },
+    showModal() {
+      return this.isShowModals;
+    },
   },
 
   methods: {
-    ...mapActions("apartment", ["addAppartmentItem", "getAllMyApartments","updateAppartmentItem"]),
+    ...mapActions("apartment", [
+      "addAppartmentItem",
+      "getAllMyApartments",
+      "updateAppartmentItem",
+    ]),
 
     async init() {
       try {
@@ -58,16 +83,29 @@ export default {
 
     handlerCreateItem(value) {
       this.addAppartmentItem(value);
-       console.log("create",value)
+      console.log("create", value);
     },
 
-    handlerEventUpdate(value){
-      console.log("updatwe",value);
+    handlerEventUpdate(value) {
+      console.log("updatwe", value);
       this.updateAppartmentItem(value);
     },
 
-    handlerEditItem(item){
-         this.selectEditItem=item;
+    handlerEditItem(item) {
+      this.selectEditItem = item;
+    },
+
+    handlerDeleteItem(id) {
+      console.log("delete item id is:", id);
+      if (id) {
+        this.isShowModals = true;
+        this.deleteItemId = id;
+      }
+    },
+    
+    handlerCancelDelete() {
+     this.isShowModals = false;
+     this.deleteItemId = null;
     }
   },
 
@@ -88,18 +126,18 @@ export default {
   width: 450px;
 }
 
-.no-items{
-    font-size: 1.6rem;
-    text-align: center;
-    margin-bottom: 10px;
-    color: #fff;
+.no-items {
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #fff;
 }
 
-.section-title{
-   font-size: 1.6rem;
-    text-align: center;
-    margin-bottom: 10px;
-    color: #fff;
+.section-title {
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #fff;
 }
 
 .section-my-apartments {
@@ -108,7 +146,7 @@ export default {
 
   .apartments-list {
     padding: 15px;
-    height:330px;
+    height: 330px;
     overflow-y: auto;
     background: rgba(190, 190, 190, 0.397);
     border: 2px solid grey;
@@ -116,12 +154,12 @@ export default {
     justify-content: flex-start;
     flex-wrap: wrap;
   }
-  
+
   .list_item {
     width: 120px;
     height: 150px;
     margin-bottom: 10px;
-    
+
     &:not(:last-child) {
       margin-right: 15px;
     }
@@ -132,6 +170,7 @@ export default {
   padding: 10px;
   display: flex;
   justify-content: flex-start;
+  position: relative;
 }
 
 @media all and(max-width: $mobile-bp-max) {
@@ -144,7 +183,7 @@ export default {
     margin: 0 auto 20px;
   }
 
-  .apartments-list {  
+  .apartments-list {
     justify-content: center;
   }
 }

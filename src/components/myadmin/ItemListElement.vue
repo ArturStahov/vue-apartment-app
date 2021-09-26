@@ -18,7 +18,7 @@
         </span>
       </div>
       <div class="control-wrapper">
-        <button class="control-button"> <IconDelete class="control-icon"/></button>
+        <button @click="handlerItemDelete" class="control-button"> <IconDelete class="control-icon"/></button>
         <button @click="handlerItemEdit" class="control-button"> <IconEdit class="control-icon"/></button>
       </div>
     </div>
@@ -41,6 +41,7 @@ export default {
     IconDelete,
     IconRating,
     IconComments,
+
   },
 
   props: {
@@ -66,6 +67,9 @@ export default {
   methods: {
    handlerItemEdit(){
      this.$emit('selectEditItem',this.item);
+   },
+   handlerItemDelete(){
+     this.$emit('selectDeleteItem',this.item._id);
    }
   
   },
