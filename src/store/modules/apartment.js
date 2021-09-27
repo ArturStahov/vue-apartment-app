@@ -1,4 +1,13 @@
-import { fetchGetAllPublicApartment,fetchGetPublicApartmentByID,getAllComments,addComment,fetchUpdateApartment,fetchCreateApartment,fetchGetAllMyApartment } from "../../services";
+import { 
+    fetchGetAllPublicApartment,
+    fetchGetPublicApartmentByID,
+    getAllComments,
+    addComment,
+    fetchUpdateApartment,
+    fetchCreateApartment,
+    fetchGetAllMyApartment ,
+    fetchDeleteMyApartmentByID
+} from "../../services";
 import * as notification from '../../utils/errorNotification'
 
 
@@ -28,19 +37,24 @@ export default {
             state.isLoading = payload;
         },
         setApartmentItem(state,payload) {
-            state.apartmentItem=payload;
+            state.apartmentItem = payload;
         },
         allApartmentComment(state,payload) {
-           state.apartmentComments=payload;
+           state.apartmentComments = payload;
         },
         addComment(state,payload) {
-            state.apartmentComments=[...state.apartmentComments,payload];
+            state.apartmentComments = [...state.apartmentComments, payload];
         },
         addApartmentItem(state,payload) {
-            state.apartment=[...state.apartment,payload];
+            state.apartment=[...state.apartment, payload];
+            state.myApartments=[...state.myApartments, payload];
+        },
+
+        deleteApartmentItem(state,payload) {
+            state.apartment = state.apartment.filter(item=>item._id !== payload);
+            state.myApartments = state.myApartments.filter(item=>item._id !== payload);
         },
        
-
     },
 
     actions: {
@@ -119,6 +133,24 @@ export default {
             }
         },
 
+        async deleteMyApartmentByID({commit},payload) {
+            try {
+                const result = await fetchDeleteMyApartmentByID(payload);
+                console.log("RESULT from delete", result );
+                if(result.status == 200) {
+                    console.log("item is deleted",payload)
+                    commit('deleteApartmentItem',payload);
+                } else {
+                   throw new Error("Something wrong!");
+                }
+                               
+            } catch (error) {
+                notification.errorNotification(error.message) 
+            }
+        },
+
         
     }
 }
+
+

@@ -18,7 +18,7 @@
           :item="item"
           :image="item.image"
           @selectEditItem="handlerEditItem"
-          @selectDeleteItem="handlerDeleteItem"
+          @selectDeleteItem="handlerSetDeleteItem"
           class="list_item"
         />
       </div>
@@ -26,7 +26,7 @@
     <Modal :show="showModal">
       <div>
         <p class="header-modal">remove it?</p>
-        <button class="modal-button">Remove</button>
+        <button @click="handlerDeleteItem" class="modal-button">Remove</button>
         <button @click="handlerCancelDelete" class="modal-button">Cancel</button>
       </div>
     </Modal>
@@ -49,7 +49,6 @@ export default {
 
   data() {
     return {
-      items: [],
       selectEditItem: {},
       isShowModals: false,
       deleteItemId: null,
@@ -63,6 +62,9 @@ export default {
     showModal() {
       return this.isShowModals;
     },
+    items(){
+      return this.$store.state.apartment.myApartments;
+    }
   },
 
   methods: {
@@ -70,12 +72,12 @@ export default {
       "addAppartmentItem",
       "getAllMyApartments",
       "updateAppartmentItem",
+      "deleteMyApartmentByID"
     ]),
 
     async init() {
       try {
         await this.getAllMyApartments();
-        this.items = this.$store.state.apartment.myApartments;
       } catch (error) {
         console.log(error);
       }
@@ -95,7 +97,7 @@ export default {
       this.selectEditItem = item;
     },
 
-    handlerDeleteItem(id) {
+    handlerSetDeleteItem(id) {
       console.log("delete item id is:", id);
       if (id) {
         this.isShowModals = true;
@@ -104,6 +106,12 @@ export default {
     },
     
     handlerCancelDelete() {
+     this.isShowModals = false;
+     this.deleteItemId = null;
+    },
+
+    handlerDeleteItem() {
+     this.deleteMyApartmentByID(this.deleteItemId);  
      this.isShowModals = false;
      this.deleteItemId = null;
     }

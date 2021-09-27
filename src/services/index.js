@@ -58,6 +58,10 @@ export const fetchUpdateApartment = (data) => {
     return axios.put(`/api/apartment/myapartment/${id}`,payload);
 };
 
+export const fetchDeleteMyApartmentByID = (id) => {
+    return axios.delete(`/api/apartment/myapartment/${id}`);
+};
+
 export const getAllComments = (projectId) => {
     return axios.get(`/api/comment/${projectId}`);
 };
