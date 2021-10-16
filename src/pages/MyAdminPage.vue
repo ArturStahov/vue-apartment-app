@@ -23,13 +23,21 @@
         />
       </div>
     </section>
+   <transition name="fade">
     <Modal :show="showModal">
-      <div>
-        <p class="header-modal">remove it?</p>
-        <button @click="handlerDeleteItem" class="modal-button">Remove</button>
-        <button @click="handlerCancelDelete" class="modal-button">Cancel</button>
+      <div class="modal-body">
+        <p class="header-modal">Remove this item?</p>
+        <div class="control-wrapper">
+          <button @click="handlerDeleteItem" class="modal-button">
+            Remove
+          </button>
+          <button @click="handlerCancelDelete" class="modal-button">
+            Cancel
+          </button>
+        </div>
       </div>
     </Modal>
+    </transition>
   </div>
 </template>
 
@@ -62,9 +70,9 @@ export default {
     showModal() {
       return this.isShowModals;
     },
-    items(){
+    items() {
       return this.$store.state.apartment.myApartments;
-    }
+    },
   },
 
   methods: {
@@ -72,7 +80,7 @@ export default {
       "addAppartmentItem",
       "getAllMyApartments",
       "updateAppartmentItem",
-      "deleteMyApartmentByID"
+      "deleteMyApartmentByID",
     ]),
 
     async init() {
@@ -104,17 +112,17 @@ export default {
         this.deleteItemId = id;
       }
     },
-    
+
     handlerCancelDelete() {
-     this.isShowModals = false;
-     this.deleteItemId = null;
+      this.isShowModals = false;
+      this.deleteItemId = null;
     },
 
     handlerDeleteItem() {
-     this.deleteMyApartmentByID(this.deleteItemId);  
-     this.isShowModals = false;
-     this.deleteItemId = null;
-    }
+      this.deleteMyApartmentByID(this.deleteItemId);
+      this.isShowModals = false;
+      this.deleteItemId = null;
+    },
   },
 
   created() {
@@ -124,11 +132,20 @@ export default {
 
     this.init();
   },
+
+  watch: {
+    isLogin(value){
+      if(!value) {
+         this.$router.push({ name: "homePage" });
+      }
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../assets/scss/variables";
+@import "../assets/scss/modal-alert";
 
 .section-form {
   width: 450px;

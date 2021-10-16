@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show"  class="modal-body">  
+  <div v-if="show"  class="modal">  
     <slot></slot>
    </div>
 </template>
@@ -18,10 +18,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal-body {
-    width: 200px;
-    height: 80px;
-    background-color: rgb(236, 208, 113);
+.modal {
+    width: 250px;
+    min-height: 100px;
+    padding: 10px;
+    background-color: #ee9817;
     position: absolute;
     left: 50%;
     top: 50%;
