@@ -5,19 +5,25 @@
     <ApartmentsList :items="filteredItems">
       <template v-slot:title><h1 class="title">Apartments:</h1></template>
     </ApartmentsList>
+    <ChatOpenButton  @chat-open-close="handlerChatButton" class="chat-open-button"/>
+    <Chat   :class="{'open-chat': toggleChatButton}" class="chat-hidden"/>
   </Container>
 </template>
 
 <script>
+import Chat from "../components/chat/Chat";
+import ChatOpenButton from "../components/chat/ChatOpenButton";
 import ApartmentsList from "../components/appartments/ApaprtmentsList";
-import FormFilter from "../components/FormFilter.vue";
-import Container from "../components/Container.vue";
+import FormFilter from "../components/FormFilter";
+import Container from "../components/Container";
 import { mapActions } from "vuex";
 
 export default {
   name: "ContentPage",
 
   components: {
+    Chat,
+    ChatOpenButton ,
     ApartmentsList,
     FormFilter,
     Container,
@@ -26,7 +32,8 @@ export default {
   data() {
     return {
       filter: "",
-      Items:[]
+      Items:[],
+      toggleChatButton: false,
     };
   },
 
@@ -64,6 +71,10 @@ export default {
         );
       }
     },
+
+    handlerChatButton(){
+      this.toggleChatButton = !this.toggleChatButton;
+    }
   },
   computed: {
     filteredItems() {
@@ -91,6 +102,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+body .open-chat{
+  transform:translateX(0);
+  visibility:visible;
+}
+
+
+.chat-open-button{
+  position:fixed;
+  right: 0;
+  top: 50%;
+  transform:translateY(-50%)
+}
 .title {
   text-align: center;
   font-size: 16px;
