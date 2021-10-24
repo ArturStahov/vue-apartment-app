@@ -1,13 +1,18 @@
 <template>
-  <Container>
-    <FormFilter @submit="handlerFilter" />
-    <p v-if="!filteredItems.length" class="warning">No Filter Result!</p>
-    <ApartmentsList :items="filteredItems">
-      <template v-slot:title><h1 class="title">Apartments:</h1></template>
-    </ApartmentsList>
-    <ChatOpenButton  @chat-open-close="handlerChatButton" class="chat-open-button"/>
-    <Chat   :class="{'open-chat': toggleChatButton}" class="chat-hidden"/>
-  </Container>
+  <div>
+    <Chat @close-chat-event="handlerCloseChat" @get-ref-event="handlerSetChatRef" />
+    <Container>
+      <FormFilter @submit="handlerFilter" />
+      <p v-if="!filteredItems.length" class="warning">No Filter Result!</p>
+      <ApartmentsList :items="filteredItems">
+        <template v-slot:title><h1 class="title">Apartments:</h1></template>
+      </ApartmentsList>
+      <ChatOpenButton
+        @chat-open-close="handlerChatButton"
+        class="chat-open-button"
+      />
+    </Container>
+  </div>
 </template>
 
 <script>
@@ -17,13 +22,15 @@ import ApartmentsList from "../components/appartments/ApaprtmentsList";
 import FormFilter from "../components/FormFilter";
 import Container from "../components/Container";
 import { mapActions } from "vuex";
+import GSAP from "gsap";
+import { Elastic } from "gsap";
 
 export default {
   name: "ContentPage",
 
   components: {
     Chat,
-    ChatOpenButton ,
+    ChatOpenButton,
     ApartmentsList,
     FormFilter,
     Container,
@@ -31,9 +38,12 @@ export default {
 
   data() {
     return {
+      Elastic,
+      GSAP,
       filter: "",
-      Items:[],
+      Items: [],
       toggleChatButton: false,
+      chatRef: null,
     };
   },
 
@@ -62,6 +72,11 @@ export default {
       }
     },
 
+    handlerSetChatRef(value) {
+      this.chatRef = value;
+      console.log("Chat ref!!!", value);
+    },
+
     filterByPrice(items) {
       if (!this.filter.price) {
         return items;
@@ -72,10 +87,14 @@ export default {
       }
     },
 
-    handlerChatButton(){
+    handlerChatButton() {
       this.toggleChatButton = !this.toggleChatButton;
+    },
+    handlerCloseChat(){
+      this.toggleChatButton = false;
     }
   },
+
   computed: {
     filteredItems() {
       return this.filterByCityName(this.filterByPrice(this.Items));
@@ -90,7 +109,31 @@ export default {
         this.$router.push({ name: "homePage" });
       }
     },
+
+    toggleChatButton(value) {
+      if (value) {
+        console.log("OPEN CHAT");
+        this.GSAP.to(this.chatRef, {
+          duration: 0.6,
+          delay: 0,
+          x: 0,
+          scale: 1,
+          ease: this.Elastic.easeOut.config(0.5, 0.3),
+          opacity: 1,
+        });
+      } else {
+        console.log("CLOSE CHAT");
+        this.GSAP.to(this.chatRef, {
+          duration: 0.6,
+          delay: 0,
+          x: -650,
+          scale: 0,
+          opacity: 0,
+        });
+      }
+    },
   },
+
   created() {
     if (!this.isLogin) {
       this.$router.push({ name: "homePage" });
@@ -102,18 +145,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-body .open-chat{
-  transform:translateX(0);
-  visibility:visible;
-}
-
-
-.chat-open-button{
-  position:fixed;
+.chat-open-button {
+  position: fixed;
   right: 0;
   top: 50%;
-  transform:translateY(-50%)
+  transform: translateY(-50%);
 }
 .title {
   text-align: center;
@@ -125,5 +161,4 @@ body .open-chat{
   font-weight: 600;
   color: red;
 }
-
 </style>
