@@ -114,7 +114,7 @@ export default {
       if (value) {
         console.log("OPEN CHAT");
         this.GSAP.to(this.chatRef, {
-          duration: 0.6,
+          duration: 0.4,
           delay: 0,
           x: 0,
           scale: 1,
@@ -124,7 +124,7 @@ export default {
       } else {
         console.log("CLOSE CHAT");
         this.GSAP.to(this.chatRef, {
-          duration: 0.6,
+          duration: 0.4,
           delay: 0,
           x: -650,
           scale: 0,

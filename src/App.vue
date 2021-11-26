@@ -30,6 +30,7 @@ export default {
 }
 .content {
   flex-grow: 1;
+  padding: 0px 35px;
 }
 
 .home-bg {

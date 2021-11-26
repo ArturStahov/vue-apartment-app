@@ -7,66 +7,122 @@
     </div>
     <div class="chat-body">
       <div class="chat-view">
-        <ul class="message-list">
+        <ul id="scroolContainer" class="message-list">
           <ChatMessage
-            v-for="{ id,name,avatar,date,message } in commentTestArray"
+            v-for="{ id, name, avatar, date, message, userMessage } in messageArray"
             :name="name"
             :avatar="avatar"
             :date="date"
             :message="message"
             :key="id"
+            :userMessage="userMessage"
             class="comment-item"
           />
+          <li id="scroolGuard" ref="scroolGuard"></li>
         </ul>
-        <div class="scroolGuard" ref="scroolGuard"></div>
       </div>
-      <div class="chat-form"></div>
+      <ChatForma @submit-message="handlerCreateMessage"/>
     </div>
     <div class="chat-footer"></div>
   </div>
 </template>
 
 <script>
+import uniqid from 'uniqid';
 import CloseIcon from "../../assets/svg/close-icon.svg";
 import ChatMessage from "./ChatMessage.vue";
+import ChatForma from "./ChatForma.vue";
+import {mapGetters, mapActions} from "vuex";
+import moment from 'moment';
 
 export default {
   name: "Chat",
   components: {
     ChatMessage,
     CloseIcon,
+    ChatForma,
   },
 
   data() {
     return {
-      commentTestArray: [
-        {
-          id: "sdsdvsdvsdv",
-          userId:'60cfa45dfe288c00444bbc3c',
-          name: "test",
-          date: "12.05.2121",
-          avatar: "",
-          message: "test-1 message skdkskd sdkkds",
-        },
-        {
-          id: "dvdvdvdvsdvsdv",
-          userId:'60cfa45dfe2dvdvdvdv444bbc3c',
-          name: "testddvdv",
-          date: "12.ddv.2121",
-          avatar: "",
-          message: "test-2 mesdvdvdvv skdkskd sdkkds",
-        },
-      ],
+      uniqid,
+      ws: null,
+      timerID: null,
     };
   },
 
   mounted() {
     this.$emit("get-ref-event", this.$refs.chatRef);
+    this.startWebsocket();
   },
+
+  computed:{
+    
+    userID(){
+      return this.$store.state.auth.user.id;
+    },
+
+    messageArray() {
+      return this.$store.state.chat.messages;
+    }
+
+  },
+
   methods: {
-    handlerButtonClose() {
+    ...mapGetters("auth", ["getUserId","getUserName","getUserAvatar"]),
+    ...mapActions("chat",["addChatMessage"]),
+
+   startWebsocket() {
+    this.ws = new WebSocket('wss://apartment-service-api.herokuapp.com/chat');
+    this.ws.onclose = this.handlerCloseSocket;
+    this.ws.onopen = this.handlerOpenedSocket;
+    this.ws.onmessage = this.handlerRetraiverMessage;
+  },
+
+   handlerRetraiverMessage({ data }) {
+     const message = JSON.parse(data); 
+     
+     if(message.userId === this.userID) {
+       message.userMessage = true;
+     }
+
+     this.addChatMessage(message);
+     const el =this.$refs.scroolGuard
+      if (el) {
+        setTimeout(()=> el.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'start' }),500)   
+      }    
+     console.log('Message from Server Socket', message);    
+   },
+
+   handlerCloseSocket(){
+    this.ws = null
+    this.timerID = setTimeout(this.startWebsocket, 300);
+    console.log('Socket close start process reopened!!!')
+  },
+
+   handlerOpenedSocket() {
+    this.timerID = clearTimeout();
+    this.timerID = null;
+    console.log(this.timerID);
+    console.log('socket open!!');
+  },
+
+    handlerButtonClose() {    
       this.$emit("close-chat-event", true);
     },
+
+    handlerCreateMessage(msg) {
+      msg.name = this.getUserName();
+      msg.userId = this.getUserId();
+      msg.avatar = this.getUserAvatar();
+      msg.id = this.uniqid();
+      msg.userMessage = false;
+      msg.date = moment().format('LLL');
+      console.log("message from formchat",msg)
+      const data = JSON.stringify(msg);
+      this.ws.send(data);
+    }
+    
   },
 };
 </script>
@@ -98,9 +154,6 @@ export default {
   width: 100%;
   height: 500px;
   overflow-y: auto;
-  border: 2px solid #ee9817;
-  background: #474747;
-  border-radius: 5px;
   margin-bottom: 30px;
 }
 
@@ -121,5 +174,11 @@ export default {
 }
 .close-icon {
   fill: #ee9817;
+}
+
+.message-list{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
 }
 </style>

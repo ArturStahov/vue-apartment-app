@@ -33,6 +33,17 @@ export default {
             state.isLoggedIn = payload;
         }
     },
+    getters:{
+        getUserId(state){
+            return state.user.id;
+        },
+        getUserName(state){
+            return state.user.name;
+        },
+        getUserAvatar(state){
+            return state.user.avatar;
+        }
+    },
     actions: {
         async loginOperation({ commit }, payload) {
             try {
