@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Chat @close-chat-event="handlerCloseChat" @get-ref-event="handlerSetChatRef" />
+    <Chat @close-chat-event="handlerCloseChat" @get-ref-event="handlerSetChatRef"/>
     <Container>
       <FormFilter @submit="handlerFilter" />
       <p v-if="!filteredItems.length" class="warning">No Filter Result!</p>

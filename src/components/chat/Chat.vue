@@ -42,18 +42,29 @@ export default {
     CloseIcon,
     ChatForma,
   },
-
+ 
   data() {
     return {
       uniqid,
       ws: null,
       timerID: null,
+      startSocket: true
     };
   },
 
   mounted() {
     this.$emit("get-ref-event", this.$refs.chatRef);
+    if(this.ws){
+      this.ws.close();
+    }
     this.startWebsocket();
+  },
+
+  beforeDestroy(){
+    this.startSocket= false;
+    this.ws.close();
+    this.ws = null;
+    console.log('SOCKET CLOSE: UNMOUNTED COMPONENT CHAT')
   },
 
   computed:{
@@ -72,11 +83,13 @@ export default {
     ...mapGetters("auth", ["getUserId","getUserName","getUserAvatar"]),
     ...mapActions("chat",["addChatMessage"]),
 
-   startWebsocket() {
-    this.ws = new WebSocket('wss://apartment-service-api.herokuapp.com/chat');
-    this.ws.onclose = this.handlerCloseSocket;
-    this.ws.onopen = this.handlerOpenedSocket;
-    this.ws.onmessage = this.handlerRetraiverMessage;
+   startWebsocket() { 
+     if(this.startSocket) {
+       this.ws = new WebSocket('wss://apartment-service-api.herokuapp.com/chat');
+       this.ws.onclose = this.handlerCloseSocket;
+       this.ws.onopen = this.handlerOpenedSocket;
+       this.ws.onmessage = this.handlerRetraiverMessage;
+     }
   },
 
    handlerRetraiverMessage({ data }) {
@@ -95,15 +108,16 @@ export default {
    },
 
    handlerCloseSocket(){
-    this.ws = null
-    this.timerID = setTimeout(this.startWebsocket, 300);
-    console.log('Socket close start process reopened!!!')
+     if(this.startSocket) {
+       this.ws = null
+       this.timerID = setTimeout(this.startWebsocket, 300);
+       console.log('Socket close start process reopened!!!')
+     }
   },
 
    handlerOpenedSocket() {
     this.timerID = clearTimeout();
     this.timerID = null;
-    console.log(this.timerID);
     console.log('socket open!!');
   },
 
