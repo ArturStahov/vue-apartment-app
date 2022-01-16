@@ -1,14 +1,5 @@
-import { 
-    fetchGetAllPublicApartment,
-    fetchGetPublicApartmentByID,
-    getAllComments,
-    addComment,
-    fetchUpdateApartment,
-    fetchCreateApartment,
-    fetchGetAllMyApartment ,
-    fetchDeleteMyApartmentByID
-} from "../../services";
-import * as notification from '../../utils/errorNotification'
+import * as Services from "../../services";
+import * as Notification from '../../utils/errorNotification'
 
 
 const initialState = {
@@ -60,28 +51,28 @@ export default {
     actions: {
         async getAllApartments({commit}){
             try {
-                const result=await fetchGetAllPublicApartment();
+                const result=await Services.fetchGetAllPublicApartment();
                 const {apartment}=result.data.data;
                 console.log(apartment,'resultAll!!!!!')
                 commit("allAaprtments",apartment);
             } catch (error) {
-                notification.errorNotification(error.message)
+                Notification.errorNotification(error.message)
             }
         },
 
         async getAllMyApartments({commit}){
             try {
-                const result=await fetchGetAllMyApartment();
+                const result=await Services.fetchGetAllMyApartment();
                 const {apartment}=result.data.data;
                 console.log(apartment,'resultAllMy-apartments!!!!!')
                 commit("allMyApartments",apartment);
             } catch (error) {
-                notification.errorNotification(error.message)
+                Notification.errorNotification(error.message)
             }
         },
 
         async getApartmentByID({ commit },payload){
-            const result=await fetchGetPublicApartmentByID(payload);
+            const result=await Services.fetchGetPublicApartmentByID(payload);
             const {apartment}=result.data.data;
             console.log(apartment,'oneApartmentResult!!!!!')
             commit("setApartmentItem",apartment);
@@ -89,53 +80,53 @@ export default {
 
         async getAllComments({commit},projectId) {
             try {
-                const result=await getAllComments(projectId);
+                const result=await Services.getAllComments(projectId);
                 const {comments}=result.data.data;
                 console.log(comments,'resultAllComments!!!!!')
                 commit("allApartmentComment",comments);
             } catch (error) {
-                notification.errorNotification(error.message)
+                Notification.errorNotification(error.message)
             } 
         },
 
         async addComment({commit},payload) {
             try {
-                const result=await addComment(payload);
+                const result=await Services.addComment(payload);
                 const {comment}=result.data.data;
                 console.log(comment,'resultCommentADD!!!!!')
                 commit("addComment",comment);
             } catch (error) {
-                notification.errorNotification(error.message);
+                Notification.errorNotification(error.message);
             } 
         }, 
         
         async updateAppartmentItem({commit},payload) {
             try {
-                const result=await fetchUpdateApartment(payload);
+                const result=await Services.fetchUpdateApartment(payload);
                 const {apartment}=result.data.data;
                 console.log("result update apartment",apartment)
                 commit('setApartmentItem',apartment)
                 
             } catch (error) {
-                notification.errorNotification(error.message) 
+                Notification.errorNotification(error.message) 
             }
         },
 
         async addAppartmentItem({commit},payload) {
             try {
-                const result=await fetchCreateApartment(payload);
+                const result=await Services.fetchCreateApartment(payload);
                 const {apartment}=result.data.data;
                 console.log("result add apartment",apartment)
                 commit('addApartmentItem',apartment)
                 
             } catch (error) {
-                notification.errorNotification(error.message) 
+                Notification.errorNotification(error.message) 
             }
         },
 
         async deleteMyApartmentByID({commit},payload) {
             try {
-                const result = await fetchDeleteMyApartmentByID(payload);
+                const result = await Services.fetchDeleteMyApartmentByID(payload);
                 console.log("RESULT from delete", result );
                 if(result.status == 200) {
                     console.log("item is deleted",payload)
@@ -145,7 +136,7 @@ export default {
                 }
                                
             } catch (error) {
-                notification.errorNotification(error.message) 
+                Notification.errorNotification(error.message) 
             }
         },
 

@@ -1,6 +1,7 @@
 <template>
   <form class="form-filter" @submit.prevent="handlerSubmit">
     <custom-input :typeInput="'text'" v-model="inputText" class="input"/>
+    <custom-input :typeInput="'text'" :inputPlaceholder='"search city"' v-model="inputFilter" class="input"/>
     <custom-select :items="selectItems" v-model="select" class="select"/>
     <custom-button type="submit" class="button-submit">Filter</custom-button>
   </form>
@@ -9,6 +10,7 @@
 import CustomInput from "./CustomInput";
 import CustomSelect from "./CustomSelect";
 import CustomButton from "./CustomButton";
+import * as Service from "@/services"
 export default {
   name: "FormFilter",
   components: {
@@ -19,12 +21,9 @@ export default {
   data() {
     return {
       inputText: "",
+      inputFilter: "",
       selectItems: [
-        { value: "", label: "All", selected: true },
-        "Kyiv",
-        "Odessa",
-        "third",
-        "four",
+        { value: "", label: "Select city", selected: true },
       ],
       select: "",
     };
@@ -37,7 +36,23 @@ export default {
       };
       this.$emit("submit", formData);
     },
+  
   },
+  watch: {
+     inputFilter(filterCity) {
+      if(filterCity) {
+        setTimeout(async()=>{
+           const result = await Service.getCityConfig(filterCity)
+           const cityArray = result?.data?.data?.config?.city
+           console.log('FILTER_CITY_RESULT',cityArray)
+           this.selectItems = [{ value: "", label: "Select city", selected: true }, ...cityArray]
+        }, 1000)
+      
+      } else {
+         this.selectItems = [ { value: "", label: "Select city", selected: true }]
+      }
+    }
+  }
 };
 </script>
 

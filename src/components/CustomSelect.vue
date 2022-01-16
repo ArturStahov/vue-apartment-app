@@ -2,8 +2,8 @@
   <div>
     <select v-on="listeners" name="select" class="select" >
       <option
-        v-for="item in formatedItems"
-        :key="item.value"
+        v-for="(item,indx) in formatedItems"
+        :key="indx"
         :value="item.value"
         :selected="item.selected"
         >{{ item.label }}</option

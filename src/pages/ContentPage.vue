@@ -61,7 +61,7 @@ export default {
 
     handlerFilter(value) {
       this.filter = value;
-      console.log(this.filter);
+      console.log('FILTER',this.filter);
     },
 
     filterByCityName(items) {

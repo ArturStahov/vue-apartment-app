@@ -1,8 +1,8 @@
-import { fetchLogin, fetchRegistration, fetchLogOut } from "../../services";
+import * as Services from "../../services";
 
 import axios from 'axios';
 
-import * as notification from '../../utils/errorNotification'
+import * as Notification from '../../utils/errorNotification'
 
 const tokenController = {
     set(token) {
@@ -47,9 +47,8 @@ export default {
     actions: {
         async loginOperation({ commit }, payload) {
             try {
-                const result = await fetchLogin(payload);
+                const result = await Services.fetchLogin(payload);
                 const { data } = result.data;
-
                 tokenController.set(data.token);
 
                 commit("changeUser", data);
@@ -62,19 +61,19 @@ export default {
         async registrationOperation(_,payload) {
             try {
                 console.log('payload!!!',payload)
-              await fetchRegistration(payload);
+              await Services.fetchRegistration(payload);
 
-              notification.infoNotification('registration success!')
+              Notification.infoNotification('registration success!')
 
             } catch (error) {
-                notification.errorNotification(error.message)
+                Notification.errorNotification(error.message)
                 console.log(error);
             }
         },
 
         async logOutOperation({ commit }) {
             try {
-                await fetchLogOut();
+                await Services.fetchLogOut();
 
                 tokenController.unset();
 
