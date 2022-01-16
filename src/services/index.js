@@ -3,10 +3,11 @@ import axios from 'axios'
 axios.defaults.baseURL = 'https://apartment-service-api.herokuapp.com';
 
 export const fetchLogin = ({ email, password }) => {
-    return axios.post('/api/users/login', {
+    const data = {
         email,
         password,
-    });
+    }
+    return axios.post('/api/users/login',  data);
 };
 
 export const fetchRegistration = ({ email, password, name }) => {
