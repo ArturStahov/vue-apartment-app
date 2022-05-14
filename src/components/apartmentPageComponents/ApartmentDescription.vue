@@ -13,10 +13,11 @@
       </h2>
       </div>
 
-      <img
-        :src="item.image ? item.image : '/img/no-image.png'"
-        class="apartment-photo"
+      <SwiperCorusel
+        class="apartment-photo-slide"
+        :images="apartmentImages"
       />
+
       <p class="citys">City: {{ item.city ? item.city : "" }}</p>
       <p class="prices">Price: {{ item.price ? item.price : "" }}</p>
       <p class="descriptions">
@@ -28,11 +29,15 @@
 </template>
 
 <script>
-import StarRaitingAdd from '../StarRaitingAdd.vue'
+import StarRaitingAdd from '../StarRaitingAdd.vue';
+import SwiperCorusel from './SwiperCorusel.vue';
 
 export default {
   name: "apartmentDescription",
-  components: {StarRaitingAdd },
+  components: {
+    StarRaitingAdd,
+    SwiperCorusel
+  },
   props: {
     item: {
       type: Object,
@@ -40,10 +45,14 @@ export default {
     },
   },
   data() {
-    return {   
-     
+    return {    
     };
   },
+  computed: {
+    apartmentImages() {
+      return [`${this.item.image}`,`${this.item.image}`,`${this.item.image}`]
+    }
+  }
 };
 </script>
 
@@ -71,10 +80,9 @@ export default {
   max-width: 500px;
 }
 
-.apartment-photo {
+.apartment-photo-slide {
   width: 100%;
-  max-height: 500px;
-  object-fit: cover;
+  height: 375px;
   margin-bottom: 20px;
 }
 
